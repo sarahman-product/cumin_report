@@ -78,10 +78,10 @@ table{width:100%;border-collapse:collapse}th{background:#f5f5f5;color:#000;font-
   <div class="panel logo-row">
     <div class="logo-preview" id="logoPreview">No logo</div>
     <div style="flex:1">
-      <h3 style="font-size:14px;color:var(--navy);margin-bottom:2px">Upload Company Logo</h3>
+      <h3 style="font-size:14px;color:var(--navy);margin-bottom:2px">Company Logo</h3>
       <p class="small">Logo appears in the report header and as a very light background watermark.</p>
     </div>
-    <label class="btn btn-green btn-sm file-input-wrap">Upload Logo<input type="file" id="logoInput" accept="image/*"></label>
+    <label class="btn btn-green btn-sm file-input-wrap">Change Logo<input type="file" id="logoInput" accept="image/*"></label>
   </div>
 
   <div class="grid3">
@@ -157,6 +157,7 @@ function showApp(){document.getElementById('app').style.display='block';document
 function showList(){document.getElementById('app').style.display='none';document.getElementById('report-wrap').style.display='none';document.getElementById('farmer-list').style.display='block';document.getElementById('farmerTitle').textContent=farmers.length+' Farmer'+(farmers.length>1?'s':'')+' Loaded';renderCards()}
 
 document.getElementById('logoInput').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){companyLogo=ev.target.result;document.getElementById('logoPreview').innerHTML='<img src="'+companyLogo+'">';if(document.getElementById('report').innerHTML)generateReport(currentIndex)};r.readAsDataURL(f)});
+if(companyLogo){document.getElementById('logoPreview').innerHTML='<img src="'+companyLogo+'">'}
 
 document.getElementById('excelInput').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var wb=XLSX.read(ev.target.result,{type:'binary',cellDates:false,raw:true});var ws=wb.Sheets[wb.SheetNames[0]];farmers=XLSX.utils.sheet_to_json(ws,{defval:'',raw:true});if(!farmers.length){showErr('No data found in Excel');return}photos={};showList()}catch(err){showErr('Excel error: '+err.message)}};r.readAsBinaryString(f)});
 
